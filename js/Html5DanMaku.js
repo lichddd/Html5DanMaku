@@ -1,17 +1,4 @@
-var danmaku=[
-{time:1,text:'aaaaaaaaaa'},
-{time:5,text:'bbbbbbbbb'},
-{time:9,text:'cccccccccccc'}
 
-
-
-
-
-
-
-
-
-];
 
 var tempdanmaku=[];
 
@@ -22,8 +9,6 @@ var video
 $().ready(function () {
 	
 	
-	
-
 	video=$('#video_continer');
 //	console.log(video);
 	
