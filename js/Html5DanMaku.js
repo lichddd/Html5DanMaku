@@ -31,6 +31,7 @@ $().ready(function () {
 	
 
 });
+
 function onPause(event) 
 {
 createjs.Ticker.removeEventListener("tick", tick);
