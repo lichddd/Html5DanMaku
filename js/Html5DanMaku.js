@@ -99,8 +99,8 @@ function ontime() {
 				
 				
 				txt = new createjs.Text(danmakuO.text, "16px  Arial", "#FFF");
-				txt.x = (50*Math.floor(i/25)+640);
-				txt.y = (i%25*10+10);
+				txt.x = (5*Math.floor(i/25)+640);
+				txt.y = (i%25*1+10);
 //				txt.rotation = 20;
 				stage2d.addChild(txt);
 //				canvastexts.push(txt);
@@ -172,8 +172,8 @@ function ontime2() {
 				j++;
 				
 				txt = new createjs.Text(danmakuO.text, "16px  Arial", "#FFF");
-				txt.x = (50*Math.floor(j/25)+640);
-				txt.y = (j%25*10+10);
+				txt.x = (5*Math.floor(j/250)+640);
+				txt.y = (j%250*1+10);
 				
 				stage2d.addChild(txt);
 			}
