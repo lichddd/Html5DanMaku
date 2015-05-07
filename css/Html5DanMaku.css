@@ -1,8 +1,19 @@
-#main_continer
+@media only screen and (min-width:600px ) {
+	#main_continer
 {
 	width: 640px;
 	height: 360px;
 	position: absolute;
+}
+}
+
+@media only screen and (min-width:1400px) {
+	#main_continer
+{
+	width: 1280px;
+	height: 720px;
+	position: absolute;
+}
 }
 #video_continer
 {
