@@ -7,6 +7,9 @@ var video;
 var canvas;
 var stage2d;
 
+
+var nowdanmakulist=[];
+
 $().ready(function () {
 	
 	
@@ -23,7 +26,7 @@ $().ready(function () {
 	canvas=document.getElementById('danmaku_canvas');
 	stage2d=new createjs.Stage(canvas);
 
-
+	nowdanmakulist=danmaku.slice(0);
 	createjs.Ticker.setFPS(30);
 	
 	
@@ -152,20 +155,58 @@ function ontime2() {
 		}
 		else
 		{
+			if (danmakunowtime<danmakunowtimeX) {
+				nowdanmakulist=danmaku.slice(0);
+				while (nowdanmakulist.length>0){
+					if (nowdanmakulist[0].time<danmakunowtime) {
+						nowdanmakulist.shift();
+					} else{
+						break;
+					}
+					
+				}
+			} else if(danmakunowtime>(danmakunowtimeX+1)) {
+				while (nowdanmakulist.length>0){
+					if (nowdanmakulist[0].time<danmakunowtime) {
+						nowdanmakulist.shift();
+					} else{
+						break;
+					}
+				}
+				
+			}
 			danmakunowtimeX=Math.floor(video.prop('currentTime'));
 		}
 		console.log(Math.floor(video.prop('currentTime')));
-		console.log(danmakunowtime);
-//		console.log(d);
+//		console.log(danmakunowtime);
+
 		d.setHours(0,0,0,0);
 		d.setMilliseconds(video.prop('currentTime')*1000);
 		$('h1').text(d.toTimeString());
 		
-		var temparr=new Array();
 		var j=0;
-		for (var i = 0; i < danmaku.length; i++) {
-			var danmakuO=danmaku[i];
-			console.log(danmakuO.text);
+//		for (var i = 0; i < danmaku.length; i++) {
+//			var danmakuO=danmaku[i];
+////			console.log(danmakuO.text);
+//			if(danmakunowtime==danmakuO.time)
+//			{
+//				
+//				
+//				j++;
+//				
+//				txt = new createjs.Text(danmakuO.text, "16px  Arial", "#FFF");
+//				txt.x = (5*Math.floor(j/250)+640);
+//				txt.y = (j%250*1+10);
+//				
+//				stage2d.addChild(txt);
+//			}
+//			else
+//			{
+////				break;
+//			}
+//		}
+		while (nowdanmakulist.length>0){
+			var danmakuO=nowdanmakulist[0];
 			if(danmakunowtime==danmakuO.time)
 			{
 				
@@ -177,37 +218,12 @@ function ontime2() {
 				txt.y = (j%250*1+10);
 				
 				stage2d.addChild(txt);
+				nowdanmakulist.shift();
 			}
 			else
 			{
-//				break;
+				break;
 			}
 		}
-//		while (danmaku.length>0){
-//			var danmakuO=danmaku[0];
-//			if(danmakunowtime==danmakuO.time)
-//			{
-//				
-//
-//				j++;
-//				
-//				
-//				
-//				
-//				
-//				txt = new createjs.Text(danmakuO.text, "16px  Arial", "#FFF");
-//				txt.x = (50*Math.floor(j/25)+640);
-//				txt.y = (j%25*10+10);
-//
-//				stage2d.addChild(txt);
-//
-//				danmaku.shift();
-//
-//			}
-//			else
-//			{
-//				break;
-//			}
-//		}
-
+//		console.log(nowdanmakulist.length);
 	}
