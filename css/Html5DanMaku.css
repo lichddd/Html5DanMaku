@@ -1,24 +1,93 @@
+@media only screen and (max-width:600px ) {
+.main_continer
+{
+	width: 320px;
+	height: 180px;
+
+}
+.inputDIV
+{
+	width: 320px;
+
+
+}
+}
+
+
+
+
 @media only screen and (min-width:600px ) {
-	#main_continer
+.main_continer
 {
 	width: 640px;
 	height: 360px;
-	position: absolute;
+
+}
+.inputDIV
+{
+	width: 640px;
+
+
 }
 }
 
 @media only screen and (min-width:1400px) {
-	#main_continer
+.main_continer
 {
 	width: 1280px;
 	height: 720px;
-	position: absolute;
+
+}
+.inputDIV
+{
+	width: 1280px;
+	
+
 }
 }
 
+
+.main_continer
+{
+	margin: auto;
+
+}
+.inputDIV
+{
+	margin: auto;
+	margin-top: 5px;
+
+
+}
+
+
+
+
+
+#inputDM
+{
+	float: left;
+	width: 85%;
+	margin-right: 1%;
+}
+#sendbtn
+{
+	float: left;
+	width: 14%;
+}
+
+
+#main_continer
+{
+
+	position: absolute;
+}
+
+
 body
 {
-	background-color: #333333;
+	/*background-color: #333333;*/
+	margin: 10px;
 }
 
 #video_continer

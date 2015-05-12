@@ -1,6 +1,6 @@
 
 
-var tempdanmaku=[];
+var danmaku=[];
 
 var d=new Date();
 var video;
@@ -9,9 +9,57 @@ var stage2d;
 
 
 var nowdanmakulist=[];
+function showdanmuOnInput (text) {
+	txt = new createjs.Text(text, "16px  Arial", "#FFF");
+				txt.x = (640);
+				txt.y = (10);
+				
+				stage2d.addChild(txt);
+}
+function timeFormatter(value, row) {
+		d.setHours(0,0,0,0);
+		d.setMilliseconds(value*1000);
+		
+        return (d.getHours().length>1?d.getHours():'0'+d.getHours())+':'
+        +(d.getMinutes().length>1?d.getMinutes():'0'+d.getMinutes())+':'
+        +(d.getSeconds().length>1?d.getSeconds():'0'+d.getSeconds());
+    }
+
 
 $().ready(function () {
-	
+	          
+	  $('#inputDM').keypress(function (e) {
+        if (e.keyCode == 13) {
+          
+          var text = $('#inputDM').val();
+          var time = danmakunowtime;
+          _firebase.pushDM('',time,text);
+          $(event.target).prop('value','');
+          showdanmuOnInput(text);
+        }
+      });
+      $('#sendbtn').on('click',function (event) {
+      	if ($('#inputDM').val().length >0 ) {
+          var text = $('#inputDM').val();
+          var time = danmakunowtime;
+          _firebase.pushDM('',time,text);
+         $('#inputDM').prop('value','');
+         showdanmuOnInput(text);
+        }
+      });
+      
+      
+      
+	_my_progress.progress();
+	_firebase.getDM("",function (list) {
+		danmaku=list.slice(0);
+		nowdanmakulist=danmaku.slice(0);
+		console.log(list);
+			$("#my_table").bootstrapTable({
+                    data: list
+                });
+		_my_progress.finish();
+	});
 	
 	video=$('#video_continer');
 //	console.log(video);
@@ -68,87 +116,12 @@ function tick(event)
 }
 
 
-//var canvastexts=new Array();
-
-
-function ontime() {
-		console.log(Math.floor(video.prop('currentTime')));
-//		console.log(d);
-		d.setHours(0,0,0,0);
-		d.setMilliseconds(video.prop('currentTime')*1000);
-		$('h1').text(d.toTimeString());
-		
-		var temparr=new Array();
-		var i=0;
-		while (danmaku.length>0){
-			var danmakuO=danmaku[0];
-			if(Math.floor(video.prop('currentTime'))==danmakuO.time)
-			{
-				
-				var p;
-				p=$('<p></p>');
-				temparr.push(p);
-				p.text(danmakuO.text);
-				p.css('top',(i%25*10+10)+'px');
-				p.css('left',(50*Math.floor(i/25)+640)+'px');
-				p.addClass('danmaku');
-				
-				
-
-				p.appendTo('#danmaku_continer');
-				i++;
-				
-				
-				
-				
-				
-				txt = new createjs.Text(danmakuO.text, "16px  Arial", "#FFF");
-				txt.x = (5*Math.floor(i/25)+640);
-				txt.y = (i%25*1+10);
-//				txt.rotation = 20;
-				stage2d.addChild(txt);
-//				canvastexts.push(txt);
-				
-				
-				
-				
-				
-				danmaku.shift();
-//				p.css('left','-'+o.width()+'px');
-			}
-			else
-			{
-				break;
-			}
-		}
-
-		
-		for (var j = 0; j < temparr.length;j++) {
-
-				temparr[j].css('left','-'+temparr[j].width()+'px');
-
-				
-		}
-		setTimeout(function () {
-				for (var j = 0; j < temparr.length;j++) {
-				temparr[j].remove();
-				
-		}
-				},3000);
-		
-		
-
-		
-
-		
-		
-	}
-
-
 
 var danmakunowtime=-1;
 var danmakunowtimeX=-1;
 function ontime2() {
+		console.log(danmaku);
+		console.log(nowdanmakulist);
 		danmakunowtime=Math.floor(video.prop('currentTime'));
 		if (danmakunowtime==danmakunowtimeX) {
 			return;
@@ -180,31 +153,10 @@ function ontime2() {
 		console.log(Math.floor(video.prop('currentTime')));
 //		console.log(danmakunowtime);
 
-		d.setHours(0,0,0,0);
-		d.setMilliseconds(video.prop('currentTime')*1000);
-		$('h1').text(d.toTimeString());
+
 		
 		var j=0;
-//		for (var i = 0; i < danmaku.length; i++) {
-//			var danmakuO=danmaku[i];
-////			console.log(danmakuO.text);
-//			if(danmakunowtime==danmakuO.time)
-//			{
-//				
-//				
-//				j++;
-//				
-//				txt = new createjs.Text(danmakuO.text, "16px  Arial", "#FFF");
-//				txt.x = (5*Math.floor(j/250)+640);
-//				txt.y = (j%250*1+10);
-//				
-//				stage2d.addChild(txt);
-//			}
-//			else
-//			{
-////				break;
-//			}
-//		}
+
 		while (nowdanmakulist.length>0){
 			var danmakuO=nowdanmakulist[0];
 			if(danmakunowtime==danmakuO.time)
@@ -218,6 +170,9 @@ function ontime2() {
 				txt.y = (j%250*1+10);
 				
 				stage2d.addChild(txt);
+				nowdanmakulist.shift();
+			}
+			else if (danmakunowtime>danmakuO.time) {
 				nowdanmakulist.shift();
 			}
 			else
