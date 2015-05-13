@@ -1,4 +1,4 @@
-
+var autoReadTime=10*1000;
 
 var danmaku=[];
 
@@ -6,7 +6,7 @@ var d=new Date();
 var video;
 var canvas;
 var stage2d;
-
+var table;
 
 var nowdanmakulist=[];
 function showdanmuOnInput (text) {
@@ -20,11 +20,24 @@ function timeFormatter(value, row) {
 		d.setHours(0,0,0,0);
 		d.setMilliseconds(value*1000);
 		
-        return (d.getHours().length>1?d.getHours():'0'+d.getHours())+':'
-        +(d.getMinutes().length>1?d.getMinutes():'0'+d.getMinutes())+':'
-        +(d.getSeconds().length>1?d.getSeconds():'0'+d.getSeconds());
+        return (d.getHours().toString().length>1?d.getHours():'0'+d.getHours())+':'
+        +(d.getMinutes().toString().length>1?d.getMinutes():'0'+d.getMinutes())+':'
+        +(d.getSeconds().toString().length>1?d.getSeconds():'0'+d.getSeconds());
     }
+function autoReReadDanmaku () {
+	console.log("定时重新获取弹幕");
+		_firebase.getDM("",function (list) {
+		danmaku=list.slice(0);
+		nowdanmakulist=danmaku.slice(0);
+		console.log(list);
+			table.bootstrapTable('load',list);
+		
+		
+		setTimeout(autoReReadDanmaku,autoReadTime);
 
+	});
+
+}
 
 $().ready(function () {
 	          
@@ -55,11 +68,33 @@ $().ready(function () {
 		danmaku=list.slice(0);
 		nowdanmakulist=danmaku.slice(0);
 		console.log(list);
-			$("#my_table").bootstrapTable({
+			table=$("#my_table").bootstrapTable({
                     data: list
                 });
+		
+		
+		setTimeout(autoReReadDanmaku,autoReadTime);
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
 		_my_progress.finish();
+		
+		
+		
+		
+		
+		
+		
+		
 	});
+	
 	
 	video=$('#video_continer');
 //	console.log(video);
@@ -82,6 +117,10 @@ $().ready(function () {
 	
 
 });
+
+
+
+
 
 function onPause(event) 
 {
@@ -120,8 +159,8 @@ function tick(event)
 var danmakunowtime=-1;
 var danmakunowtimeX=-1;
 function ontime2() {
-		console.log(danmaku);
-		console.log(nowdanmakulist);
+//		console.log(danmaku);
+//		console.log(nowdanmakulist);
 		danmakunowtime=Math.floor(video.prop('currentTime'));
 		if (danmakunowtime==danmakunowtimeX) {
 			return;
