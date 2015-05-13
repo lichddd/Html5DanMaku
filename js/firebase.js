@@ -44,7 +44,7 @@ var FireBase = function(){
   			var list=[];
   			dataSnapshot.forEach(function (data) {
   				list.push(data.val());
-  				console.log(data.val().time+':'+data.val().text);
+//				console.log(data.val().time+':'+data.val().text);
   			})
   			onReturn(list);
 
@@ -55,6 +55,22 @@ var FireBase = function(){
 		});
 	}
 	
+	
+	this.addedDM=function (id,onAdd) {
+		myDataRef.child('danmu'+id).on('child_added', function(childSnapshot, prevChildName) {
+  // code to handle new child.
+  		// code to handle new value
+  			console.log('弹幕动态增加 danmu'+id);
+  			
+  			
+  			onAdd(childSnapshot.key(),childSnapshot.val());
+
+  			
+		}, function (err) {
+			console.log('弹幕动态增加读取失败');
+		  // code to handle read error
+		});
+	}
     
  
     
